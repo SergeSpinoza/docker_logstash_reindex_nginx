@@ -1,0 +1,6 @@
+http.host: "0.0.0.0"
+path.config: /usr/share/logstash/pipeline
+pipeline.batch.size: 250
+http.host: 0.0.0.0
+http.port: 9600
+pipeline.workers: 2

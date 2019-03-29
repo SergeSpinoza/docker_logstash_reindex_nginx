@@ -1,0 +1,17 @@
+UID [A-F0-9]{32}
+
+APIKEY apikey=
+
+APIKEY2 [a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}
+
+NGINXMAIN %{IPORHOST:clientip} - (%{USER:ident}|-) \[%{HTTPDATE:timestamp}\] %{NUMBER:response} "(?:%{WORD:method} %{NOTSPACE:request}(?: HTTP/%{NUMBER:httpversion})?|%{DATA:rawrequest})" (?:%{NUMBER:bytes}|-) (?:"(?:%{URI:referrer}|-)"|%{QS:referrer}) %{QS:agent} %{HOST:server_name} "(uid=%{UID:uid_got}|-)" "(uid=%{UID:uid_set}|-)" rt=%{BASE10NUM:request_time} ut=(%{BASE10NUM:upstream_response_time}|-) cs=(%{WORD:cache_status}|-) ua=(%{IPORHOST:upstream_addr}:%{BASE10NUM:upstream_port}|-)
+
+NGINXERROR (?<timestamp>%{YEAR}[./]%{MONTHNUM}[./]%{MONTHDAY} %{TIME}) \[%{LOGLEVEL:severity}\] %{POSINT:pid}#%{NUMBER}: \*%{NUMBER} %{GREEDYDATA:errormessage}(?:, client: %{IP:clientip})(?:, server: %{IPORHOST:server})(?:, request: %{QS:request})?(?:, upstream: "?%{URI:upstream}"?)?(?:, host: %{QS:host})?(?:, referrer: "%{URI:referrer}")?
+
+NGINXACCESS %{IPORHOST:clientip} - (%{USER:ident}|-) \[%{HTTPDATE:timestamp}\] "(?:%{WORD:method} %{NOTSPACE:request}(?: HTTP/%{NUMBER:httpversion})?|%{DATA:rawrequest})" %{NUMBER:response} (?:%{NUMBER:bytes}|-) (?:"(?:%{URI:referrer}|-)"|%{QS:referrer}) %{QS:agent}
+
+STATIC \.(?i)(jpe?g|png|gif|ico|mp4|css|txt|gz)
+
+HOST %{HOSTNAME}
+
+JSONDATA (?<=\.json\?)([^\s]+)

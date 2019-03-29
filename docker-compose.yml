@@ -1,0 +1,19 @@
+version: '3.3'
+services:
+
+  logstash:
+    build:
+      context: build/
+    image: my_logstash:6.6.0
+    volumes:
+     - ./config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro
+     - ./config/logstash.conf:/usr/share/logstash/pipeline/logstash.conf:ro
+     - ./config/jvm.options:/usr/share/logstash/config/jvm.options:ro
+     - ./config/patterns:/usr/share/logstash/patterns
+    environment:
+      ES_JAVA_OPTS: "-Xmx3g -Xms3g"
+    # ports:
+    #   - "5043:5043/tcp"
+    #   - "5044:5044/tcp"
+    #   - "9600:9600/tcp"
+    # restart: always
